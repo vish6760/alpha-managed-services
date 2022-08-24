@@ -1,0 +1,14 @@
+---
+# Source: harbor-operator/templates/certificate.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: 'harbor-operator-serving-cert'
+spec:
+  dnsNames:
+  - 'harbor-operator.rackspace-staging.svc'
+  - 'harbor-operator.rackspace-staging.svc.cluster.local'
+  issuerRef:
+    kind: Issuer
+    name: 'harbor-operator-selfsigned-issuer'
+  secretName: 'harbor-operator-certificate'

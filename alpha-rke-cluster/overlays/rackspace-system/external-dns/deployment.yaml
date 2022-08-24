@@ -1,0 +1,53 @@
+---
+# Source: external-dns/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-dns
+  namespace: default
+spec:
+  template:
+    spec:      
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: external-dns
+                    app.kubernetes.io/instance: external-dns
+                topologyKey: kubernetes.io/hostname
+              weight: 1          
+      containers:
+        - name: external-dns
+          args:
+            # Generic arguments
+            - --log-level=info
+            - --log-format=text
+            - --domain-filter=demo.mk8s.net
+            - --policy=sync
+            - --provider=aws
+            - --registry=txt
+            - --interval=1m
+            - --txt-owner-id=demo.mk8s.net.
+            - --source=service
+            # AWS arguments
+            - --aws-api-retries=3
+            - --aws-zone-type=
+            - --aws-batch-change-size=1000
+          env:
+            # AWS environment variables
+            - name: AWS_DEFAULT_REGION
+              value: 
+            - name: AWS_SHARED_CREDENTIALS_FILE
+              value: /.aws/credentials
+          volumeMounts:
+            # AWS mountPath(s)
+            - name: aws-credentials
+              mountPath: /.aws
+              readOnly: true              
+      volumes:
+        # AWS volume(s)
+        - name: aws-credentials
+          secret:
+            secretName: external-dns

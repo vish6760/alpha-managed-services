@@ -1,0 +1,12 @@
+---
+# Source: ceph-csi-rbd/templates/csiplugin-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "ceph-csi-config"
+  namespace: default
+data:
+  config.json: |-
+    [{"clusterID":"808559f0-4dbd-4e62-b077-869000f00305","monitors":['172.29.244.60', '172.29.244.61', '172.29.244.62']}]
+  cluster-mapping.json: |-
+    []

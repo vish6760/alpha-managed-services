@@ -1,0 +1,33 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: alpha-rke-cluster-kyverno
+  namespace: argocd
+  labels:
+    env: alpha-rke-cluster
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: alpha-rke-cluster
+  source:
+    repoURL: https://github.com/vish6760/alpha-managed-services.git
+    path: alpha-rke-cluster/overlays/rackspace-staging/kyverno
+    targetRevision: HEAD
+
+  destination:
+    name: alpha-rke-cluster
+
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+
+  ignoreDifferences:
+    - group: kyverno.io
+      kind: ClusterPolicy
+      jqPathExpressions:
+        - .spec.rules[] | select(.name|test("autogen-."))

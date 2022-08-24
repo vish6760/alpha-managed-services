@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name:  rackspace-system'
+spec: {}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name:  rackspace-staging'
+spec: {}
