@@ -1,0 +1,28 @@
+---
+# Source: ceph-csi-rbd/templates/storageclass.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+  name: csi-rbd-sc
+  labels:
+    app: ceph-csi-rbd
+    chart: ceph-csi-rbd-3.5.1
+    release: ceph-csi
+    heritage: Helm
+provisioner: rbd.csi.ceph.com
+parameters:
+  clusterID: 808559f0-4dbd-4e62-b077-869000f00305
+  pool: rke1-cluster
+  imageFeatures: layering
+  thickProvision: "false"
+  csi.storage.k8s.io/provisioner-secret-name: csi-rbd-secret
+  csi.storage.k8s.io/provisioner-secret-namespace: rackspace-system
+  csi.storage.k8s.io/controller-expand-secret-name: csi-rbd-secret
+  csi.storage.k8s.io/controller-expand-secret-namespace: rackspace-system
+  csi.storage.k8s.io/node-stage-secret-name: csi-rbd-secret
+  csi.storage.k8s.io/node-stage-secret-namespace: rackspace-system
+  csi.storage.k8s.io/fstype: ext4
+reclaimPolicy: Delete
+allowVolumeExpansion: true

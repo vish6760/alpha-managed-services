@@ -1,0 +1,8 @@
+---
+# Source: harbor-operator/templates/mutatingwebhookconfiguration.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: 'rackspace-system/harbor-operator-serving-cert'
+  name: 'harbor-operator-mutating-webhook-configuration'

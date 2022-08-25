@@ -1,0 +1,25 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: alpha-rke-cluster-root-app
+  namespace: argocd
+  labels:
+    env: alpha-rke-cluster
+
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: alpha-rke-cluster
+  source:
+    repoURL: https://github.com/vish6760/alpha-managed-services.git
+    path: alpha-rke-cluster
+    targetRevision: HEAD
+
+  destination:
+    name: in-cluster
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true

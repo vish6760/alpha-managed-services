@@ -1,0 +1,22 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: route53-cluster-issuer
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: route53-cluster-issuer
+    solvers:
+    # this solver handles example.org challenges
+    # and uses explicit credentials
+    - selector:
+        dnsZones:
+          - "demo.mk8s.net"
+      dns01:
+        route53:
+          region: us-east-1
+          accessKeyID: AKIA264VHBMH362KBXCB
+          secretAccessKeySecretRef:
+            name: route53-secret
+            key: secret-access-key

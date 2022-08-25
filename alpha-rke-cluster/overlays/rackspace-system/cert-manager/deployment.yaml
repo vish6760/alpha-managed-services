@@ -1,0 +1,49 @@
+---
+# Source: cert-manager/templates/cainjector-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-manager-cainjector
+  namespace: "default"
+spec:
+  template:
+    spec:
+      containers:
+        - name: cert-manager
+          args:
+          - --leader-election-namespace=rackspace-system
+---
+# Source: cert-manager/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-manager
+  namespace: "default"
+spec:
+  template:
+    spec:
+      containers:
+        - name: cert-manager
+          args:
+          - --cluster-resource-namespace=rackspace-system
+          - --leader-election-namespace=rackspace-system
+---
+# Source: cert-manager/templates/webhook-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-manager-webhook
+  namespace: "default"
+spec:
+  template:
+    spec:
+      containers:
+        - name: cert-manager
+          image: "quay.io/jetstack/cert-manager-webhook:v1.7.0"
+          imagePullPolicy: IfNotPresent
+          args:
+          - --v=2
+          - --secure-port=10250
+          - --dynamic-serving-ca-secret-namespace=$(POD_NAMESPACE)
+          - --dynamic-serving-ca-secret-name=cert-manager-webhook-ca
+          - --dynamic-serving-dns-names=cert-manager-webhook,cert-manager-webhook.rackspace-system,cert-manager-webhook.rackspace-system.svc

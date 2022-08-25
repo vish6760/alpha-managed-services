@@ -1,0 +1,91 @@
+---
+# Full stack Harbor
+apiVersion: goharbor.io/v1beta1
+kind: HarborCluster
+metadata:
+  name: harborcluster
+spec:
+  version: 2.4.0
+  logLevel: info
+  imageSource:
+    repository: ghcr.io/goharbor
+  harborAdminPasswordRef: admin-core-secret
+  externalURL: https://harbor-alpha.demo.mk8s.net
+  expose:
+    core:
+      ingress:
+        host: harbor-alpha.demo.mk8s.net
+        controller: default
+        ingressClassName: nginx
+      tls:
+        certificateRef: harbor-public-certificate
+    notary:
+      ingress:
+        host: notary-alpha.demo.mk8s.net
+        controller: default
+        ingressClassName: nginx
+      tls:
+        certificateRef: harbor-public-certificate
+  internalTLS:
+    enabled: false
+  portal: {}
+  registry:
+    metrics:
+      enabled: true
+  core:
+    replicas: 1
+    tokenIssuer:
+      name: harbor-operator-selfsigned-issuer
+      kind: Issuer
+    metrics:
+      enabled: true
+  chartmuseum: {}
+  exporter: {}
+  trivy:
+    skipUpdate: false
+    storage:
+      cachePersistentVolume:
+        claimName: harbor-trivy-cache
+      reportsPersistentVolume:
+        claimName: harbor-trivy-reports
+  notary:
+    migrationEnabled: true
+  database:
+    kind: Zlando/PostgreSQL
+    spec:
+      zlandoPostgreSql:
+        operatorVersion: "1.6.3"
+        storage: "10Gi"
+        replicas: 1
+        resources:
+          limits:
+            cpu: 500m
+            memory: 500Mi
+          requests:
+            cpu: 100m
+            memory: 250Mi
+  storage:
+    kind: FileSystem
+    spec:
+      fileSystem:
+        chartPersistentVolume:
+          claimName: harbor-chart
+        registryPersistentVolume:
+          claimName: harbor-registry
+  cache:
+    kind: RedisFailover
+    spec:
+      redisFailover:
+        operatorVersion: "1.1.1"
+        server:
+          replicas: 1
+          storage: "10Gi"
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 250Mi
+        sentinel:
+          replicas: 1
