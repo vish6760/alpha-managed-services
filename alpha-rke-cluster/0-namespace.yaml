@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: in-cluster-namespace
+  name: alpha-rke-cluster-namespace
   namespace: argocd
   labels:
     env: alpha-rke-cluster
