@@ -10,18 +10,18 @@ spec:
   imageSource:
     repository: ghcr.io/goharbor
   harborAdminPasswordRef: admin-core-secret
-  externalURL: https://harbor-alpha.demo.mk8s.net
+  externalURL: https://harbor-alpha1.demo.mk8s.net
   expose:
     core:
       ingress:
-        host: harbor-alpha.demo.mk8s.net
+        host: harbor-alpha1.demo.mk8s.net
         controller: default
         ingressClassName: nginx
       tls:
         certificateRef: harbor-public-certificate
     notary:
       ingress:
-        host: notary-alpha.demo.mk8s.net
+        host: notary-alpha1.demo.mk8s.net
         controller: default
         ingressClassName: nginx
       tls:

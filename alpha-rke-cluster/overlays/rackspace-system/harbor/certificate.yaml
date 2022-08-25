@@ -7,8 +7,8 @@ metadata:
 spec:
   secretName: harbor-public-certificate
   dnsNames:
-    - harbor-alpha.demo.mk8s.net
-    - notary-alpha.demo.mk8s.net
+    - harbor-alpha1.demo.mk8s.net
+    - notary-alpha1.demo.mk8s.net
   issuerRef:
     name: route53-cluster-issuer
     kind: ClusterIssuer
