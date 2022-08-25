@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: in-cluster-ceph-csi
+  name: alpha-rke-cluster-ceph-csi
   namespace: argocd
   labels:
     env: alpha-rke-cluster
