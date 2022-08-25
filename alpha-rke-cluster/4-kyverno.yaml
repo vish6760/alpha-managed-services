@@ -2,10 +2,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: in-cluster-kyverno
+  name: alpha-rke-cluster-kyverno
   namespace: argocd
   labels:
-    env: alpha-rke-cluster-cluster
+    env: alpha-rke-cluster
   annotations:
     argocd.argoproj.io/sync-wave: "4"
   finalizers:
