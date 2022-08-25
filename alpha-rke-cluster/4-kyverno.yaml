@@ -5,7 +5,7 @@ metadata:
   name: in-cluster-kyverno
   namespace: argocd
   labels:
-    env: alpha-rke-cluster
+    env: alpha-rke-cluster-cluster
   annotations:
     argocd.argoproj.io/sync-wave: "4"
   finalizers:
